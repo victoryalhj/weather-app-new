@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 // import { useState } from 'react';
 import './App.css';
+import WeatherBox from './component/WeatherBox';
 
 function App() {
 
@@ -24,8 +25,9 @@ function App() {
   },[]);
 
   return (
-
-    <div>hiiii</div>
+    <div>
+      <WeatherBox/>
+    </div>
   );
 }
 
