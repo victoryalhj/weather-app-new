@@ -1,5 +1,4 @@
 import { useEffect,useState,useCallback } from "react";
-// import { useState } from 'react';
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import WeatherBox from "./component/WeatherBox";
@@ -45,6 +44,13 @@ function App() {
     }
   },[city]);
 
+  const handleCityChange = (city) => {
+    if (city === "current") {
+      getCurrentLocation();
+    } else {
+      setCity(city);
+    }
+  };
 
   return (
     <div>
@@ -55,7 +61,7 @@ function App() {
       ) : (
       <div className="container">
         <WeatherBox weather={weather}/>
-        <WeatherButton cities={cities} setCity={setCity}/>
+        <WeatherButton cities={cities} handleCityChange={handleCityChange} setCity={setCity}/>
       </div>
       )}
     </div>
