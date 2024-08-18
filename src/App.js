@@ -39,20 +39,14 @@ function App() {
   );
   },[]);
 
-  const getWeatherByCity = async () => {
-    if (!city) return; // 빈 문자열인 경우 처리
-    try {
-      setLoading(true);
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=faa38f17e7999e9f8f3778867a829169&units=metric`;
-      const response = await fetch(url);
-      const data = await response.json();
-      setWeather(data);
-    } catch (err) {
-      setAPIError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getWeatherByCity = async() => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=faa38f17e7999e9f8f3778867a829169&units=metric`
+    setLoading(true);
+    let response = await fetch(url);
+    let data = await response.json();
+    setWeather(data);
+    setLoading(false);
+  }
 
   useEffect(()=>{
     setLoading(true);
