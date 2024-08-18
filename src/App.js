@@ -46,6 +46,7 @@ function App() {
 
   const handleCityChange = (city) => {
     if (city === "current") {
+      setCity("current")
       getCurrentLocation();
     } else {
       setCity(city);
@@ -61,7 +62,7 @@ function App() {
       ) : (
       <div className="container">
         <WeatherBox weather={weather}/>
-        <WeatherButton cities={cities} handleCityChange={handleCityChange} setCity={setCity}/>
+        <WeatherButton cities={cities} selectedCity={city} handleCityChange={handleCityChange} />
       </div>
       )}
     </div>

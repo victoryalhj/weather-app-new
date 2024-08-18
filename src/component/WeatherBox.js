@@ -1,7 +1,9 @@
 import React from 'react'
 
 const WeatherBox = ({weather}) => {
-  console.log("weather?",weather);
+  if(!weather || !weather.main){
+    return <div>No data available</div>;
+  }
 
   return <div className="weather-box">
       <div>{weather?.name}</div>
