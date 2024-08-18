@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect,useState,useCallback } from "react";
 // import { useState } from 'react';
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,13 +7,13 @@ import WeatherButton from "./component/WeatherButton";
 
 function App() {
   const [weather,setWeather]=useState(null);
-  const getCurrentLocation=()=>{
+  const getCurrentLocation=useCallback(()=>{
     navigator.geolocation.getCurrentPosition((position)=>{
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
       getWeatherByCurrentLocation(lat,lon)
     });
-  };
+  },[]);
 
   const getWeatherByCurrentLocation = async(lat,lon) => {
     let url =`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=faa38f17e7999e9f8f3778867a829169&units=metric`
@@ -24,7 +24,7 @@ function App() {
 
   useEffect(()=>{
     getCurrentLocation();
-  },[]);
+  },[getCurrentLocation]);
 
   return (
     <div>
