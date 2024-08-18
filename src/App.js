@@ -29,9 +29,14 @@ function App() {
 
   const getCurrentLocation=useCallback(()=>{
     navigator.geolocation.getCurrentPosition((position)=>{
-      const {lat,lon} = position.coords;
-      getWeatherByCurrentLocation(lat,lon)
-    });
+      const {latitude: lat, longitude: lon} = position.coords;
+      getWeatherByCurrentLocation(lat,lon);
+    },
+    // (error) => {
+    //   setAPIError(error,message);
+    //   setLoading(false);
+    // }
+  );
   },[]);
 
   const getWeatherByCity = async() => {
@@ -44,14 +49,13 @@ function App() {
   }
 
   useEffect(()=>{
-    if(city==""){
-      setLoading(true);
+    setLoading(true);
+    if(city==="current"){
       getCurrentLocation();
     }else {
-      setLoading(true);
       getWeatherByCity()
     }
-  },[city]);
+  },[city,getCurrentLocation]);
 
   const handleCityChange = (city) => {
     if (city === "current") {
