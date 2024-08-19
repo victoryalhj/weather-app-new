@@ -12,7 +12,7 @@ function App() {
   const [weather,setWeather]=useState(null);
   const [city,setCity]=useState('');
   const [loading, setLoading] = useState(true);
-  const [apiError,setAPIError] = useState("");
+  const [setAPIError] = useState("");
 
 
   const getWeatherByCurrentLocation = async(lat,lon) => {
@@ -70,7 +70,7 @@ function App() {
     } else {
       setLoading(false);
     }
-  }, [city, getCurrentLocation]);
+  }, [city, getCurrentLocation, getWeatherByCity]);
 
   const handleCityChange = (newCity) => {
     if (newCity === "current") {

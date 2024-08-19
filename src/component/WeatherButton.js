@@ -14,7 +14,7 @@ const WeatherButton = ({cities,selectedCity ,handleCityChange}) => {
       {cities.map((city, index)=>(
         <Button
         key={index}
-        variant={`${selectedCity  == city ? "outline-warning" : "warning"}`}
+        variant={`${selectedCity  === city ? "outline-warning" : "warning"}`}
         onClick={() => handleCityChange(city)}
         >
         {city}
