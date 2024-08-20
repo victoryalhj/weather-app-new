@@ -5,7 +5,7 @@ import WeatherBox from "./component/WeatherBox";
 import WeatherButton from "./component/WeatherButton";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const cities = ["paris","new york", "tokyo","seoul"];
+const cities = ["paris","new york","tokyo","seoul"];
 // const API_KEY = process.env.REACT_APP_API_KEY;
 
 function App() {
@@ -29,19 +29,13 @@ function App() {
   };
 
   const getCurrentLocation = useCallback(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude: lat, longitude: lon } = position.coords;
-        getWeatherByCurrentLocation(lat, lon);
-      },
-      (error) => {
-        setAPIError("Unable to retrieve your location");
-        setLoading(false);
-      }
-    );
-  }, []);
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude: lat, longitude: lon } = position.coords;
+      getWeatherByCurrentLocation(lat, lon);
+    });
+  }, [getWeatherByCurrentLocation, setAPIError]);
 
-  const getWeatherByCity = async () => {
+  const getWeatherByCity = useCallback(async () => {
     if (!city) {
       setLoading(false);
       return;
@@ -59,18 +53,35 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [city]);
   
 
   useEffect(() => {
-    if (city === "current") {
-      getCurrentLocation();
-    } else if (city) {
-      getWeatherByCity();
-    } else {
-      setLoading(false);
-    }
-  }, [city, getCurrentLocation, getWeatherByCity]);
+    const fetchWeather = async () => {
+      if (city === "current") {
+        getCurrentLocation();
+      } else if (city) {
+        try {
+          let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=faa38f17e7999e9f8f3778867a829169&units=metric`;
+          let response = await fetch(url);
+          if (!response.ok) {
+            throw new Error("Failed to fetch weather data");
+          }
+          let data = await response.json();
+          setWeather(data);
+        } catch (err) {
+          setAPIError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+  
+    setLoading(true);
+    fetchWeather();
+  }, [city, getCurrentLocation,getWeatherByCity]);
 
   const handleCityChange = (newCity) => {
     if (newCity === "current") {
